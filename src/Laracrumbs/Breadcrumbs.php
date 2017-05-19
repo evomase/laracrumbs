@@ -99,7 +99,7 @@ class Breadcrumbs
         $this->addCrumbToData($data, $path);
 
         while (!empty($path)) {
-            $path = preg_replace('/\/[^\/]+$/', '', $path);
+            $path = preg_replace('/\/[^\/]*$/', '', $path);
             $this->addCrumbToData($data, $path);
         }
 

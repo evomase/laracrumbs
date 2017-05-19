@@ -52,7 +52,7 @@ Once included, it will automatically generate the breadcrumbs associated to the
 current request.
 
 ```php
-<div class="container>
+<div class="container">
     @include('laracrumbs::breadcrumbs')
 </div>
 ```
