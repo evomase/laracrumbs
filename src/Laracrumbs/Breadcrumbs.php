@@ -95,12 +95,14 @@ class Breadcrumbs
         $path = $this->request->getPathInfo();
         $data = [];
 
-        //add current route
-        $this->addCrumbToData($data, $path);
-
-        while (!empty($path)) {
-            $path = preg_replace('/\/[^\/]*$/', '', $path);
+        if ($path != '/') {
+            //add current route
             $this->addCrumbToData($data, $path);
+
+            while (!empty($path)) {
+                $path = preg_replace('/\/[^\/]+$/', '', $path);
+                $this->addCrumbToData($data, $path);
+            }
         }
 
         //add index/home route
