@@ -177,7 +177,8 @@ class Breadcrumbs
         $parameters = $this->getParameters();
 
         if ($callback instanceof \Closure) {
-            $parameters = $route->resolveMethodDependencies($parameters, new \ReflectionFunction($callback));
+            $method = new \ReflectionFunction($callback);
+            $parameters = $route->resolveMethodDependencies($parameters, $method);
         } else {
             $method = (is_array($callback)) ? new \ReflectionMethod($callback[0],
                 $callback[1]) : new \ReflectionMethod($callback);
@@ -185,7 +186,9 @@ class Breadcrumbs
             $parameters = $route->resolveMethodDependencies($parameters, $method);
         }
 
-        return $callback(...array_values($parameters));
+        $parameters = $this->filterMethodDependencies($parameters, $method);
+
+        return $callback(...$parameters);
     }
 
     /**
@@ -201,5 +204,28 @@ class Breadcrumbs
         }
 
         return $this->parameters;
+    }
+
+    /**
+     * @param array                       $parameters
+     * @param \ReflectionFunctionAbstract $reflector
+     * @return array
+     */
+    private function filterMethodDependencies(array $parameters, \ReflectionFunctionAbstract $reflector): array
+    {
+        $parameters = array_values($parameters);
+
+        foreach ($reflector->getParameters() as $i => $reflectorParameter) {
+            $parameter = $parameters[$i];
+            switch (true) {
+                //objects
+                case ($class = $reflectorParameter->getClass())
+                    && (!is_object($parameter) || (get_class($parameter) !== $class->name)) :
+                    unset($parameters[$i]);
+                    break;
+            }
+        }
+
+        return $parameters;
     }
 }

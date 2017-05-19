@@ -43,17 +43,17 @@ class BreadcrumbsTest extends TestCase
         });
 
         Breadcrumbs::add($b = Route::get('hello/{id}', function ($id) {
-        }), function ($id) {
+        }), function (int $id) {
             return 'Hello ' . $id;
         });
 
         Breadcrumbs::add($b = Route::get('hello/{id}/world', function ($id) {
-        }), function ($id) {
+        }), function (int $id) {
             return 'Hello ' . $id . ' world';
         });
 
         Breadcrumbs::add($b = Route::get('hello/{id}/world/end', function ($id) {
-        }), function ($id) {
+        }), function (int $id) {
             return 'Hello ' . $id . ' world - end';
         });
 
@@ -67,4 +67,50 @@ class BreadcrumbsTest extends TestCase
         $this->assertContains('Hello 1', $breadcrumbs);
         $this->assertContains('Hello 1 world', $breadcrumbs);
     }
+
+    public function testGetBreadCrumbsObjectBinding()
+    {
+        Route::bind('test', function () {
+            return new TestBreadCrumbStubA;
+        });
+
+        Route::bind('this', function () {
+            return new TestBreadCrumbStubB;
+        });
+
+        Route::bind('again', function () {
+            return new TestBreadCrumbStubC;
+        });
+
+        Breadcrumbs::add(Route::get('{test}/{this}/{again}/{id}', function () {
+
+        }), function (TestBreadCrumbStubA $test, TestBreadCrumbStubC $again, int $id) {
+            return 'Found ' . get_class($test) . ' + ' . get_class($again) . ' + ' . $id;
+        });
+
+        $request = Request::createFromBase(SymfonyRequest::create('http://localhost/hello/1/world/2'));
+
+        $breadcrumbs = Breadcrumbs::generate($request);
+
+        $this->assertContains('Found ' . implode(' + ', [
+                TestBreadCrumbStubA::class,
+                TestBreadCrumbStubC::class,
+                2
+            ]), $breadcrumbs);
+    }
+}
+
+class TestBreadCrumbStubA
+{
+
+}
+
+class TestBreadCrumbStubB
+{
+
+}
+
+class TestBreadCrumbStubC
+{
+
 }
