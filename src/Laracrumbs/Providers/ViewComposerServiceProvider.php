@@ -16,8 +16,6 @@ class ViewComposerServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        View::composers([
-            BreadcrumbsComposer::class => 'layout.html'
-        ]);
+        View::composer('breadcrumbs', BreadcrumbsComposer::class);
     }
 }

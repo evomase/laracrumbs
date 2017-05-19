@@ -94,25 +94,30 @@ class Breadcrumbs
     {
         $path = $this->request->getPathInfo();
         $data = [];
-        $end = false;
 
-        while (!$end) {
+        //add current route
+        $this->addCrumbToData($data, $path);
+
+        while (!empty($path)) {
             $path = preg_replace('/\/[^\/]+$/', '', $path);
-
-            //last segment of the path = home page
-            if (empty($path)) {
-                $end = true;
-                $path = '/';
-            }
-
-            if ($path && ($route = $this->getPathRoute($path)) && $this->exists($route)) {
-                $title = $this->getRouteTitle($route);
-
-                $data[$this->url($path)] = $title;
-            }
+            $this->addCrumbToData($data, $path);
         }
 
+        //add index/home route
+        $this->addCrumbToData($data, '/');
+
         return array_reverse($data);
+    }
+
+    /**
+     * @param array  $data
+     * @param string $path
+     */
+    private function addCrumbToData(array &$data, string $path)
+    {
+        if ($path && ($route = $this->getPathRoute($path)) && $this->exists($route)) {
+            $data[$this->url($path)] = $this->getRouteTitle($route);
+        }
     }
 
     /**
@@ -136,6 +141,19 @@ class Breadcrumbs
     private function exists(Route $route): bool
     {
         return array_key_exists($route->uri(), self::$crumbs);
+    }
+
+    /**
+     * @param $path
+     * @return string
+     */
+    private function url($path)
+    {
+        if (function_exists('url')) {
+            return url($path);
+        }
+
+        return (new UrlGenerator(RouteFacade::getRoutes(), $this->request))->to($path);
     }
 
     /**
@@ -183,18 +201,5 @@ class Breadcrumbs
         }
 
         return $this->parameters;
-    }
-
-    /**
-     * @param $path
-     * @return string
-     */
-    private function url($path)
-    {
-        if (function_exists('url')) {
-            return url($path);
-        }
-
-        return (new UrlGenerator(RouteFacade::getRoutes(), $this->request))->to($path);
     }
 }
