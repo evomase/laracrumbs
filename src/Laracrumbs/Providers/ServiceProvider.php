@@ -15,4 +15,9 @@ class ServiceProvider extends AggregateServiceProvider
     protected $providers = [
         ViewComposerServiceProvider::class
     ];
+
+    public function boot()
+    {
+        $this->loadViewsFrom(LARACRUMBS_BASE_DIR . '/resources/views', LARACRUMBS_NAME);
+    }
 }

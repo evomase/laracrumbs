@@ -217,8 +217,8 @@ class Breadcrumbs
 
         foreach ($reflector->getParameters() as $i => $reflectorParameter) {
             $parameter = $parameters[$i];
+
             switch (true) {
-                //objects
                 case ($class = $reflectorParameter->getClass())
                     && (!is_object($parameter) || (get_class($parameter) !== $class->name)) :
                     unset($parameters[$i]);
