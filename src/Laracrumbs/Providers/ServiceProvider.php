@@ -6,7 +6,7 @@
  * Time: 13:09
  */
 
-namespace Laracrumbs;
+namespace Laracrumbs\Providers;
 
 use Illuminate\Support\AggregateServiceProvider;
 

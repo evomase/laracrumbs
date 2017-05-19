@@ -19,7 +19,7 @@ class Breadcrumbs
     /**
      * @var array
      */
-    private static $crumbs = [];
+    private static $crumbs;
 
     /**
      * @var Request
@@ -44,6 +44,21 @@ class Breadcrumbs
     {
         $this->request = $request;
         $this->route = $this->getRequestRoute($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return Route|null
+     */
+    private function getRequestRoute(Request $request): ?Route
+    {
+        try {
+            $route = RouteFacade::getRoutes()->match($request);
+        } catch (NotFoundHttpException $e) {
+            $route = null;
+        }
+
+        return $route;
     }
 
     /**
@@ -112,21 +127,6 @@ class Breadcrumbs
         ]);
 
         return $this->getRequestRoute($duplicate);
-    }
-
-    /**
-     * @param Request $request
-     * @return Route|null
-     */
-    private function getRequestRoute(Request $request): ?Route
-    {
-        try {
-            $route = RouteFacade::getRoutes()->match($request);
-        } catch (NotFoundHttpException $e) {
-            $route = null;
-        }
-
-        return $route;
     }
 
     /**

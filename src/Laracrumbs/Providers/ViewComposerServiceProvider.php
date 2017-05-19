@@ -6,10 +6,11 @@
  * Time: 11:22
  */
 
-namespace Laracrumbs;
+namespace Laracrumbs\Providers;
 
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Laracrumbs\BreadcrumbsComposer;
 
 class ViewComposerServiceProvider extends ServiceProvider
 {
