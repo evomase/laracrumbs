@@ -1,0 +1,39 @@
+{
+    "name": "evomase/laracrumbs",
+    "description": "A light way of adding breadcrumbs to a route in Laravel",
+    "keywords": [
+        "laravel",
+        "breadcrumbs",
+        "route",
+        "request"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "David Ogilo",
+            "email": "david.ogilo@dayesoft.co"
+        }
+    ],
+    "require": {
+        "illuminate/support": "5.4.*",
+        "illuminate/routing": "5.4.*",
+        "illuminate/view": "5.4.*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.7",
+        "symfony/var-dumper": "v3.3.0-RC1"
+    },
+    "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
+        "psr-4": {
+            "Laracrumbs\\": "src/Laracrumbs/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Laracrumbs\\Tests\\": "tests/"
+        }
+    }
+}
