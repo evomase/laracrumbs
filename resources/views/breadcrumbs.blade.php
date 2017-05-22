@@ -2,7 +2,7 @@
     @foreach($breadcrumbs as $link => $title)
         <li {{ ($loop->last)? ' class=active' : '' }}>
             @if(!$loop->last)
-                <a>{{ $title }}</a>
+                <a {{ $link }}>{{ $title }}</a>
             @else
                 {{ $title }}
             @endif
