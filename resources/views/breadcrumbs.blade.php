@@ -1,5 +1,11 @@
 <ol class="breadcrumb">
     @foreach($breadcrumbs as $link => $title)
-        <li><a {{ ($loop->last)? ' class=active' : '' }} href="{{ $link }}">{{ $title }}</a></li>
+        <li {{ ($loop->last)? ' class=active' : '' }}>
+            @if(!$loop->last)
+                <a>{{ $title }}</a>
+            @else
+                {{ $title }}
+            @endif
+        </li>
     @endforeach
 </ol>
