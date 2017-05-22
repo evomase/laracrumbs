@@ -1,7 +1,5 @@
-<nav class="breadcrumb">
+<ol class="breadcrumb">
     @foreach($breadcrumbs as $link => $title)
-        <a class="breadcrumb-item{{ ($loop->last)? ' active' : '' }}" href="{{ $link }}">
-            {{ $title }}
-        </a>
+        <li><a {{ ($loop->last)? ' class=active' : '' }} href="{{ $link }}">{{ $title }}</a></li>
     @endforeach
-</nav>
+</ol>
