@@ -225,6 +225,8 @@ class Breadcrumbs
                     && (!is_object($parameter) || (get_class($parameter) !== $class->name)) :
                     unset($parameters[$i]);
                     break;
+                default:
+                    break;
             }
         }
 
