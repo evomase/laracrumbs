@@ -3,7 +3,7 @@ Laracrumbs is a lightweight Laravel package that provides the functionality to a
 [Breadcrumbs](https://en.wikipedia.org/wiki/Breadcrumb_(navigation)) to [Routes](https://laravel.com/docs/master/routing)
 
 ## Requirements
-- PHP 7.1
+- PHP 7.0
 - Laravel 5.4+
 
 ## Installation
