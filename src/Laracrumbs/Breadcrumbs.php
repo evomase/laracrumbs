@@ -50,7 +50,7 @@ class Breadcrumbs
      * @param Request $request
      * @return Route|null
      */
-    private function getRequestRoute(Request $request): ?Route
+    private function getRequestRoute(Request $request)
     {
         try {
             $route = RouteFacade::getRoutes()->match($request);
