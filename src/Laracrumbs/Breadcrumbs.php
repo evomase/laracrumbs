@@ -126,7 +126,7 @@ class Breadcrumbs
      * @param string $path
      * @return Route|null
      */
-    private function getPathRoute(string $path): ?Route
+    private function getPathRoute(string $path): Route
     {
         $duplicate = $this->request->duplicate(null, null, null, null, null, [
             'REQUEST_URI'    => $path,
