@@ -9,6 +9,7 @@
 namespace Laracrumbs\Providers;
 
 use Illuminate\Support\AggregateServiceProvider;
+use Laracrumbs\Breadcrumbs;
 
 class ServiceProvider extends AggregateServiceProvider
 {
@@ -19,5 +20,10 @@ class ServiceProvider extends AggregateServiceProvider
     public function boot()
     {
         $this->loadViewsFrom(LARACRUMBS_BASE_DIR . '/resources/views', LARACRUMBS_NAME);
+
+        set_exception_handler(function () {
+            //disables the generation of breadcrumbs if exception is thrown
+            Breadcrumbs::disable();
+        });
     }
 }

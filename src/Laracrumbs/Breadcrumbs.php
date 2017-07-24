@@ -22,15 +22,17 @@ class Breadcrumbs
     private static $crumbs;
 
     /**
+     * @var bool
+     */
+    private static $disabled = false;
+    /**
      * @var Request
      */
     private $request;
-
     /**
      * @var Route
      */
     private $route;
-
     /**
      * @var array
      */
@@ -84,7 +86,7 @@ class Breadcrumbs
      */
     public static function generate(Request $request): array
     {
-        return (new self($request))->get();
+        return (self::$disabled) ? [] : (new self($request))->get();
     }
 
     /**
@@ -126,7 +128,7 @@ class Breadcrumbs
      * @param string $path
      * @return Route|null
      */
-    private function getPathRoute(string $path): Route
+    private function getPathRoute(string $path)
     {
         $duplicate = $this->request->duplicate(null, null, null, null, null, [
             'REQUEST_URI'    => $path,
@@ -231,5 +233,13 @@ class Breadcrumbs
         }
 
         return $parameters;
+    }
+
+    /**
+     * Disables the generation of breadcrumbs
+     */
+    public static function disable()
+    {
+        self::$disabled = true;
     }
 }
